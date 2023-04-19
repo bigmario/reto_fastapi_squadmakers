@@ -10,7 +10,7 @@ from fastapi import (
 )
 from fastapi_pagination import Page, paginate
 
-from .schemas.jokes import Joke
+from .schemas import Joke
 from .service.joke_service import JokeService
 
 from config import Settings
@@ -27,14 +27,26 @@ jokes_router = APIRouter(tags=["Jokes"])
 # GET JOKES FROM https://api.chucknorris.io/ or https://icanhazdadjoke.com/api
 #################################################################################
 @jokes_router.get(
+    path="/joke",
+    status_code=status.HTTP_200_OK,
+    summary="Get a random joke from https://api.chucknorris.io/ or https://icanhazdadjoke.com/api",
+)
+async def get_joke(
+    joke_service: JokeService = Depends(),
+):
+    return await joke_service.get_random_joke()
+
+
+######################################################################################
+# GET JOKE FROM https://api.chucknorris.io/ or https://icanhazdadjoke.com/api By Type
+######################################################################################
+@jokes_router.get(
     path="/joke/{joke_type}",
     status_code=status.HTTP_200_OK,
     summary="Get a joke from https://api.chucknorris.io/ or https://icanhazdadjoke.com/api",
 )
 async def get_joke(
-    joke_type: Optional[str] = Path(
-        ..., description="Enter the type of joke (Chuck or Dad)"
-    ),
+    joke_type: str = Path(..., description="Enter the Joke type (Chuck or Dad)"),
     joke_service: JokeService = Depends(),
 ):
     return await joke_service.get_jokes(joke_type)

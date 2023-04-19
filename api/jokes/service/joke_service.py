@@ -5,7 +5,7 @@ from fastapi import Body, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi_pagination import Page
 
-from api.jokes.schemas import Joke, JokeTypes
+from api.jokes.schemas import Joke
 
 
 class JokeService:
@@ -14,31 +14,49 @@ class JokeService:
         joke = requests.get(url, headers=headers)
         return joke.json()
 
-    async def get_jokes(self, joke_type: JokeTypes):
+    async def get_jokes(self, joke_type: str):
         try:
             joke_type = joke_type.lower()
-            if joke_type is JokeTypes.chuck:
+            print(joke_type)
+            if joke_type == "chuck":
                 joke = self.__fetch_joke("https://api.chucknorris.io/jokes/random")
                 return JSONResponse(
                     {"joke": joke["value"]},
                     status_code=status.HTTP_200_OK,
                 )
-            elif joke_type is JokeTypes.dad:
+            elif joke_type == "dad":
                 joke = self.__fetch_joke("https://icanhazdadjoke.com")
                 return JSONResponse(
                     {"joke": joke["joke"]},
                     status_code=status.HTTP_200_OK,
                 )
-            elif joke_type is JokeTypes.void:
-                foo = ["a", "b", "c", "d", "e"]
-                return JSONResponse(
-                    {"joke": random.choice(foo)},
-                    status_code=status.HTTP_200_OK,
-                )
             else:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail='Joke type mus be "Chuck" o "Dad"',
+                    detail='Joke type must be "Chuck" o "Dad"',
+                )
+        except requests.exceptions.ConnectionError:
+            raise HTTPException(
+                status_code=status.HTTP_408_REQUEST_TIMEOUT,
+                detail="Joke server is taking too much time to respond",
+            )
+
+    async def get_random_joke(self):
+        try:
+            joke_sources = [
+                "https://api.chucknorris.io/jokes/random",
+                "https://icanhazdadjoke.com",
+            ]
+            joke = self.__fetch_joke(random.choice(joke_sources))
+            if "value" in joke:
+                return JSONResponse(
+                    {"joke": joke["value"]},
+                    status_code=status.HTTP_200_OK,
+                )
+            else:
+                return JSONResponse(
+                    {"joke": joke["joke"]},
+                    status_code=status.HTTP_200_OK,
                 )
         except requests.exceptions.ConnectionError:
             raise HTTPException(
