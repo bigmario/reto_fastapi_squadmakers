@@ -14,23 +14,29 @@ class JokeService:
         return joke.json()
 
     async def get_jokes(self, joke_type: str):
-        if joke_type == "Chuck":
-            joke = self.__fetch_joke("https://api.chucknorris.io/jokes/random")
-            return JSONResponse(
-                {"joke": joke["value"]},
-                status_code=status.HTTP_200_OK,
-            )
-
-        elif joke_type == "Dad":
-            joke = self.__fetch_joke("https://icanhazdadjoke.com")
-            return JSONResponse(
-                {"joke": joke["joke"]},
-                status_code=status.HTTP_200_OK,
-            )
-        else:
+        try:
+            joke_type = joke_type.lower()
+            if joke_type == "chuck":
+                joke = self.__fetch_joke("https://api.chucknorris.io/jokes/random")
+                return JSONResponse(
+                    {"joke": joke["value"]},
+                    status_code=status.HTTP_200_OK,
+                )
+            elif joke_type == "dad":
+                joke = self.__fetch_joke("https://icanhazdadjoke.com")
+                return JSONResponse(
+                    {"joke": joke["joke"]},
+                    status_code=status.HTTP_200_OK,
+                )
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail='Joke type mus be "Chuck" o "Dad"',
+                )
+        except requests.exceptions.ConnectionError:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail='El chiste debe ser de tipo "Chuck" o "Dad"',
+                status_code=status.HTTP_408_REQUEST_TIMEOUT,
+                detail="Joke server is taking too much time to respond",
             )
 
     async def save_joke(self, body: Joke = Body(...)):

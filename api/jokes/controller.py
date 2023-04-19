@@ -83,7 +83,7 @@ async def get_all_jokes(
     summary="Update a Joke on Database",
 )
 async def update_joke(
-    number: PydanticObjectId = Path(..., description="Enter the Joke ID"),
+    number: PydanticObjectId = Path(...),
     body: Joke = Body(...),
     joke_service: JokeService = Depends(),
 ):
@@ -103,7 +103,7 @@ async def update_joke(
     response_model_exclude_unset=True,
 )
 async def delete_joke(
-    number: PydanticObjectId = Path(..., description="Enter the joke ID"),
+    number: PydanticObjectId = Path(...),
     joke_service: JokeService = Depends(),
 ) -> dict:
     try:
