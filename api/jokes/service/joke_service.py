@@ -1,10 +1,11 @@
+import random
 import requests
 from beanie import PydanticObjectId
 from fastapi import Body, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi_pagination import Page
 
-from api.jokes.schemas.jokes import Joke
+from api.jokes.schemas import Joke, JokeTypes
 
 
 class JokeService:
@@ -13,19 +14,25 @@ class JokeService:
         joke = requests.get(url, headers=headers)
         return joke.json()
 
-    async def get_jokes(self, joke_type: str):
+    async def get_jokes(self, joke_type: JokeTypes):
         try:
             joke_type = joke_type.lower()
-            if joke_type == "chuck":
+            if joke_type is JokeTypes.chuck:
                 joke = self.__fetch_joke("https://api.chucknorris.io/jokes/random")
                 return JSONResponse(
                     {"joke": joke["value"]},
                     status_code=status.HTTP_200_OK,
                 )
-            elif joke_type == "dad":
+            elif joke_type is JokeTypes.dad:
                 joke = self.__fetch_joke("https://icanhazdadjoke.com")
                 return JSONResponse(
                     {"joke": joke["joke"]},
+                    status_code=status.HTTP_200_OK,
+                )
+            elif joke_type is JokeTypes.void:
+                foo = ["a", "b", "c", "d", "e"]
+                return JSONResponse(
+                    {"joke": random.choice(foo)},
                     status_code=status.HTTP_200_OK,
                 )
             else:
@@ -58,7 +65,7 @@ class JokeService:
         return await Joke.find_all().to_list()
 
     async def update_joke(self, number: PydanticObjectId, body: Joke = Body(...)):
-        update_joke = await Joke.find_one(Joke.id == number)
+        update_joke = await Joke.get(number)
         if update_joke:
             update_joke.joke = body.joke
             await update_joke.save()

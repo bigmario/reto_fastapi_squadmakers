@@ -50,9 +50,14 @@ async def init_db():
     await init_beanie(database=client.db_name, document_models=[Joke])
 ```
 
-## EJECUCION
-- renombrar el archivo `.env.example` a `.env` y modificar las variables a conveniencia.
+## PUESTA EN MARCHA
+- ejecutar las siguientes instrucciones:
+    ```
+    python -m venv venv
+    pip install -r requirements.txt
+    ```
+- renombrar el archivo `.env.example` a `.env` y modificar las variables a conveniencia (con modificar las variables MONGO_ROOT_USERNAME y MONGO_ROOT_PASSWORD es suficiente) .
 
 - Levantar el servidor:
-    - Ejecutando directamente `python main.py`, pero se debe tener un servicio Mongo corriendo en el equipo
-    - con la instruccion `docker compose up --build` (se incluyen los archivos `docker-compose.yml` y `Dockerfile` necesarios), que se encarga de crear los contenedores para MongoDB y la API respectivanmente, junto con los volumenes necesarios tanto para la base de datos como para la API, de manera que funcione el "Live Reloading" de FastAPI, ademas de la red interna que los interconecta, esta es la forma mas rapida ya que solo hay que indicar un USERNAME y PASSWORD para el contenedor mongo.  
+    - 1ra. opción: Ejecutando directamente `python main.py`, pero se debe tener un servicio Mongo corriendo en el equipo.
+    - 2da. opción: con la instruccion `docker compose up --build` (se incluyen los archivos `docker-compose.yml` y `Dockerfile` necesarios), que se encarga de crear los contenedores para MongoDB y la API respectivanmente, junto con los volumenes necesarios tanto para la base de datos como para la API, de manera que funcione el "Live Reloading" de FastAPI, ademas de la red interna que los interconecta, esta es la forma mas rápida ya que solo hay que indicar un USERNAME y PASSWORD para el contenedor mongo (en el archivo `env`).  

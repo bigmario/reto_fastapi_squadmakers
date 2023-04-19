@@ -1,3 +1,4 @@
+from typing import Optional
 from beanie import PydanticObjectId
 from fastapi import (
     APIRouter,
@@ -21,6 +22,7 @@ conf = Settings()
 ########################
 jokes_router = APIRouter(tags=["Jokes"])
 
+
 #################################################################################
 # GET JOKES FROM https://api.chucknorris.io/ or https://icanhazdadjoke.com/api
 #################################################################################
@@ -30,7 +32,9 @@ jokes_router = APIRouter(tags=["Jokes"])
     summary="Get a joke from https://api.chucknorris.io/ or https://icanhazdadjoke.com/api",
 )
 async def get_joke(
-    joke_type: str = Path(..., description="Enter the type of joke (Chuck or Dad)"),
+    joke_type: Optional[str] = Path(
+        ..., description="Enter the type of joke (Chuck or Dad)"
+    ),
     joke_service: JokeService = Depends(),
 ):
     return await joke_service.get_jokes(joke_type)
