@@ -49,6 +49,24 @@ async def init_db():
 
     await init_beanie(database=client.db_name, document_models=[Joke])
 ```
+El modelo de datos se define en `api/jokes/schemas/jokes.py`
+```python
+from beanie import Document
+
+
+class Joke(Document):
+    joke: str | None = None
+
+    class Settings:
+        name = "jokes"
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "joke": "Chuck Norris is so hard he jumped from the effiel tower broke both his legs and walked to the hospital",
+            }
+        }
+```
 
 ## PUESTA EN MARCHA
 - ejecutar las siguientes instrucciones:
