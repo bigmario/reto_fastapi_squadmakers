@@ -68,7 +68,7 @@ class JokeService:
         existing_joke = await Joke.find_one(Joke.joke == body.joke)
 
         if not existing_joke:
-            new_joke = await body.create()
+            await body.create()
             return JSONResponse(
                 {"Message": "Joke successfully stored"},
                 status_code=status.HTTP_200_OK,
