@@ -42,7 +42,7 @@ async def get_joke(
 @jokes_router.get(
     path="/joke/{joke_type}",
     status_code=status.HTTP_200_OK,
-    summary="Get a joke from https://api.chucknorris.io/ or https://icanhazdadjoke.com/api",
+    summary="Get a joke from https://api.chucknorris.io/ or https://icanhazdadjoke.com/api by TYPE (Chuck or Dad)",
 )
 async def get_joke(
     joke_type: str = Path(..., description="Enter the Joke type (Chuck or Dad)"),
