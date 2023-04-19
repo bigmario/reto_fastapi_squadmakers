@@ -11,7 +11,7 @@ from api.jokes.schemas.jokes import Joke
 
 
 class JokeService:
-    def fetch_joke(self, url):
+    def __fetch_joke(self, url):
         joke = requests.get(url)
         serialized_joke = json.loads(joke.text)
         return JSONResponse(
@@ -21,9 +21,9 @@ class JokeService:
 
     async def get_jokes(self, joke_type: str):
         if joke_type == "Chuck":
-            return self.fetch_joke("https://api.chucknorris.io/jokes/random")
+            return self.__fetch_joke("https://api.chucknorris.io/jokes/random")
         elif joke_type == "Dad":
-            return self.fetch_joke("https://icanhazdadjoke.com/")
+            return self.__fetch_joke("https://icanhazdadjoke.com/")
         else:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
