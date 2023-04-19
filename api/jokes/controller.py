@@ -78,7 +78,7 @@ async def get_all_jokes(
 # UPDATE Joke on DB
 ########################
 @jokes_router.patch(
-    path="/joke/{id}",
+    path="/joke/{number}",
     status_code=status.HTTP_200_OK,
     summary="Update a Joke on Database",
 )

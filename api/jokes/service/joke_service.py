@@ -57,8 +57,8 @@ class JokeService:
     async def get_all_jokes(self) -> Page[Joke]:
         return await Joke.find_all().to_list()
 
-    async def update_joke(self, id: PydanticObjectId, body: Joke = Body(...)):
-        update_joke = await Joke.find_one(Joke.id == id)
+    async def update_joke(self, number: PydanticObjectId, body: Joke = Body(...)):
+        update_joke = await Joke.find_one(Joke.id == number)
         if update_joke:
             update_joke.joke = body.joke
             await update_joke.save()
