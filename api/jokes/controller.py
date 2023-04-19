@@ -1,4 +1,3 @@
-from typing import Optional
 from beanie import PydanticObjectId
 from fastapi import (
     APIRouter,

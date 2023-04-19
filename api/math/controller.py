@@ -2,10 +2,7 @@ from typing import List
 from fastapi import (
     APIRouter,
     Query,
-    Body,
     status,
-    Path,
-    HTTPException,
     Depends,
 )
 from .service.math_service import MathService
