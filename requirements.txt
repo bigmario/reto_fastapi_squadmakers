@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic[dotenv]
+black
+gunicorn
+beanie
+fastapi-pagination
+requests
