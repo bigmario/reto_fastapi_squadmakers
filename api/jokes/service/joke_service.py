@@ -1,11 +1,8 @@
-import os
-import json
 import requests
-from typing import List
 from beanie import PydanticObjectId
 from fastapi import Body, HTTPException, status
 from fastapi.responses import JSONResponse
-from fastapi_pagination import Page, paginate
+from fastapi_pagination import Page
 
 from api.jokes.schemas.jokes import Joke
 

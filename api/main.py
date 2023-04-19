@@ -7,9 +7,7 @@ from fastapi_pagination import add_pagination
 
 from api.core.database import init_db
 from api.jokes.controller import jokes_router
-
-
-from api.utils.remove_422 import remove_422
+from api.math.controller import math_router
 
 
 app = FastAPI()
@@ -29,6 +27,7 @@ app.add_middleware(
 )
 
 app.include_router(jokes_router)
+app.include_router(math_router)
 
 
 @app.on_event("startup")
@@ -37,7 +36,6 @@ async def start_db():
 
 
 @app.get(path="/", summary="Index", tags=["Index"])
-@remove_422
 async def index():
     return JSONResponse(
         {

@@ -1,8 +1,6 @@
-from typing import List, Any
 from beanie import PydanticObjectId
 from fastapi import (
     APIRouter,
-    Header,
     Body,
     status,
     Path,
@@ -32,10 +30,10 @@ jokes_router = APIRouter(tags=["Jokes"])
     summary="Get a joke from https://api.chucknorris.io/ or https://icanhazdadjoke.com/api",
 )
 async def get_joke(
-    joke_type: str = Path(...),
-    subscription_service: JokeService = Depends(),
+    joke_type: str = Path(..., description="Enter the type of joke (Chuck or Dad)"),
+    joke_service: JokeService = Depends(),
 ):
-    return await subscription_service.get_jokes(joke_type)
+    return await joke_service.get_jokes(joke_type)
 
 
 ########################
@@ -67,11 +65,11 @@ async def save_joke(
     response_model_exclude_unset=True,
 )
 async def get_all_jokes(
-    subscription_service: JokeService = Depends(),
+    joke_service: JokeService = Depends(),
 ) -> Page[Joke]:
     try:
-        subscriptions = await subscription_service.get_all_jokes()
-        return paginate(subscriptions)
+        jokes = await joke_service.get_all_jokes()
+        return paginate(jokes)
     except Exception as e:
         return f"An exception occurred: {e}"
 
@@ -85,7 +83,7 @@ async def get_all_jokes(
     summary="Update a Joke on Database",
 )
 async def update_joke(
-    number: PydanticObjectId = Path(...),
+    number: PydanticObjectId = Path(..., description="Enter the Joke ID"),
     body: Joke = Body(...),
     joke_service: JokeService = Depends(),
 ):
@@ -105,7 +103,7 @@ async def update_joke(
     response_model_exclude_unset=True,
 )
 async def delete_joke(
-    number: PydanticObjectId = Path(...),
+    number: PydanticObjectId = Path(..., description="Enter the joke ID"),
     joke_service: JokeService = Depends(),
 ) -> dict:
     try:

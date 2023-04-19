@@ -1,4 +1,3 @@
-from pydantic import Field, BaseModel
 from beanie import Document
 
 
