@@ -98,7 +98,7 @@ async def get_all_jokes(
     summary="Update a Joke on Database",
 )
 async def update_joke(
-    number: PydanticObjectId = Path(...),
+    number: PydanticObjectId = Path(..., description="Enter the Joke ID"),
     body: Joke = Body(...),
     joke_service: JokeService = Depends(),
 ):
@@ -114,11 +114,11 @@ async def update_joke(
 @jokes_router.delete(
     path="/joke/{number}",
     status_code=status.HTTP_200_OK,
-    summary="Delete One Joke By Number",
+    summary="Remove One Joke form the Database By Number",
     response_model_exclude_unset=True,
 )
 async def delete_joke(
-    number: PydanticObjectId = Path(...),
+    number: PydanticObjectId = Path(..., description="Enter the Joke ID"),
     joke_service: JokeService = Depends(),
 ) -> dict:
     try:
