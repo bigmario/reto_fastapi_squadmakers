@@ -30,7 +30,7 @@ endpoint debe ser el mínimo común múltiplo de ellos
 - GET: Endpoint al que se le pasará un query param llamado “number” con un número entero. La respuesta será ese número + 1.
 
 ## ¿Qué repositorio / Base de datos fue utilizada?
-Se empleó MongoDB, ya que para almacenar una gran cantidad de chistes, MongoDB podría ser una buena opción debido a su flexibilidad, escalabilidad, velocidad y facilidad de uso. Además, si los chistes no tienen una estructura predefinida, MongoDB podría ser aún más adecuada debido a su capacidad para manejar datos no estructurados o semiestructurados.
+Se empleó MongoDB, ya que por la posible gran cantidad de data a almacenar, MongoDB podría ser una buena opción debido a su flexibilidad, escalabilidad, velocidad y facilidad de uso. Además, si la data no tienen una estructura predefinida, MongoDB podría ser aún más adecuada debido a su capacidad para manejar datos no estructurados o semiestructurados.
 
 ## Sentencia para crear la BBDD y el modelo de datos requerido
 Al momento de iniciarse el servidor, se ejecuta la siguiente intruccion "on startup"
@@ -39,7 +39,7 @@ Al momento de iniciarse el servidor, se ejecuta la siguiente intruccion "on star
 async def start_db():
     await init_db()
 ```
-Lo que llama al core del sistema y hace la coneccion a la base de datos mediante el driver "motor" y el ODM "Beanie":
+Lo que llama al core del sistema y hace la conección e inicialización de la base de datos mediante el driver "motor" y el ODM "Beanie":
 
 ```python
 async def init_db():
@@ -47,8 +47,9 @@ async def init_db():
         f"mongodb://{conf.mongo_root_username}:{conf.mongo_root_password}@{conf.mongo_db_host}:{conf.mongo_db_port}"
     )
 
-    await init_beanie(database=client.db_name, document_models=[Joke])
+    await init_beanie(database=client[conf.db_name], document_models=[Joke])
 ```
+
 El modelo de datos se define en `api/jokes/schemas/jokes.py`
 ```python
 from beanie import Document
