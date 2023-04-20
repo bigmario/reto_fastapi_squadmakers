@@ -23,9 +23,7 @@ math_router = APIRouter(tags=["Math"])
     summary="Calculate the least common multiple ",
 )
 async def get_lcm(
-    numbers: List[int] = Query(
-        ..., description="Enter list of integers separated by comma"
-    ),
+    numbers: str,
     math_service: MathService = Depends(),
 ):
     return await math_service.get_lcm(numbers)
