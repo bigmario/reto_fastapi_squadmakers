@@ -33,12 +33,12 @@ endpoint debe ser el mínimo común múltiplo de ellos
 Se empleó MongoDB, ya que por la posible gran cantidad de data a almacenar, MongoDB podría ser una buena opción debido a su flexibilidad, escalabilidad, velocidad y facilidad de uso. Además, si la data no tienen una estructura predefinida, MongoDB podría ser aún más adecuada debido a su capacidad para manejar datos no estructurados o semiestructurados.
 
 ## Arquitectura
-Se decidio modularizar la aplicacion, implementando modulos separados para el apartado de Chistes y el de Matemáticas, con una adaptacion del patron MVC en el caso del módulo `jokes`, donde se define un modelo que usara el ODM para la base de datos Mongo, un controlador que recibe y maneja los requests de cada endpoint y un servicio que maneja la logica de negocio.
-Para el modulo `math` solo se implementa el controlador y el servicio ya que no hay interaccion con base de datos.
+Se decidio modularizar la aplicación, implementando modulos separados para el apartado de Chistes y el de Matemáticas, con una adaptación del patron MVC en el caso del módulo `jokes`, donde se define un modelo que usara el ODM para la base de datos Mongo, un controlador que recibe y maneja los requests de cada endpoint y un servicio que maneja la lógica de negocio.
+Para el modulo `math` solo se implementa el controlador y el servicio ya que no hay interacción con base de datos.
 Todo esto en pro de asegurar la escalabilidad y mantenibilidad de la aplicación. 
 
 ## Sentencia para crear la BBDD y el modelo de datos requerido
-Al momento de iniciarse el servidor, se ejecuta la siguiente intruccion "on startup"
+Al momento de iniciarse el servidor, se ejecuta la siguiente intrucción "on startup"
 ```python
 @app.on_event("startup")
 async def start_db():
@@ -90,5 +90,5 @@ class Joke(Document):
 Para acceder a a la documentacion de la API mediante Swagger UI, luego de levantar el servidor, se debe acceder a la siguiente URL: <http://localhost:8000/docs>
 
 ## TESTING
-Para ejecutar los tests solo debe ejecutarse la instruccion `pytest`<br>
+Para ejecutar los tests solo debe ejecutarse la instrucción `pytest`<br>
 Estos tests estan intradocumentados y se encuentran en el archivo `test_main.py` 
