@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.utils import get_openapi
 
 from fastapi_pagination import add_pagination
 
@@ -11,6 +12,22 @@ from api.math.controller import math_router
 
 
 app = FastAPI()
+
+
+def __custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="SquadMakers Challenge",
+        version="0.0.1",
+        description="Reto Backend - Fast API",
+        routes=app.routes,
+    )
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = __custom_openapi
 
 origins = [
     "*",
