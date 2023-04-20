@@ -83,3 +83,7 @@ class Joke(Document):
 
 ## Documentación de la API y Swagger UI
 Para acceder a a la documentacion de la API mediante Swagger UI, luego de levantar el servidor, se debe acceder a la siguiente URL: <http://localhost:8000/docs>
+
+## TESTING
+Para ejecutar los tests solo debe ejecutarse la instruccion `pytest`<br>
+Estos tests estan intradocumentados y se encuentran en el archivo `test_main.py` 
