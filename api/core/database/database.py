@@ -12,4 +12,4 @@ async def init_db():
         f"mongodb://{conf.mongo_root_username}:{conf.mongo_root_password}@{conf.mongo_db_host}:{conf.mongo_db_port}"
     )
 
-    await init_beanie(database=client.db_name, document_models=[Joke])
+    await init_beanie(database=client[conf.db_name], document_models=[Joke])
