@@ -76,8 +76,10 @@ class Joke(Document):
 
 ## PUESTA EN MARCHA
 - ejecutar las siguientes instrucciones:
-    ```
+    ```bash
     python -m venv venv
+    source venv/bin/activate #linux
+    ./venv/Scripts/activate #Windows
     pip install -r requirements.txt
     ```
 - renombrar el archivo `.env.example` a `.env` y modificar las variables a conveniencia (con modificar las variables MONGO_ROOT_USERNAME y MONGO_ROOT_PASSWORD es suficiente).
