@@ -79,4 +79,7 @@ class Joke(Document):
 
 - Levantar el servidor:
     - 1ra. opción: Ejecutando directamente `python main.py`, pero se debe tener un servicio Mongo corriendo en el equipo.
-    - 2da. opción: con la instruccion `docker compose up --build` (se incluyen los archivos `docker-compose.yml` y `Dockerfile` necesarios), que se encarga de crear los contenedores para MongoDB y la API respectivanmente, junto con los volumenes necesarios tanto para la base de datos como para la API, de manera que funcione el "Live Reloading" de FastAPI, ademas de la red interna que los interconecta, esta es la forma mas rápida ya que solo hay que indicar un USERNAME y PASSWORD para el contenedor mongo (en el archivo `env`).  
+    - 2da. opción: con la instruccion `docker compose up --build` (se incluyen los archivos `docker-compose.yml` y `Dockerfile` necesarios), que se encarga de crear los contenedores para MongoDB y la API respectivanmente, junto con los volumenes necesarios tanto para la base de datos como para la API, de manera que funcione el "Live Reloading" de FastAPI, ademas de la red interna que los interconecta, esta es la forma mas rápida ya que solo hay que indicar un USERNAME y PASSWORD para el contenedor mongo (en el archivo `env`).
+
+## Documentación de la API y Swagger UI
+Para acceder a a la documentacion de la API mediante Swagger UI, luego de levantar el servidor, se debe acceder a la siguiente URL: <http://localhost:8000/docs>
